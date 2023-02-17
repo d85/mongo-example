@@ -171,3 +171,54 @@ Providing `{ title: 1 }` means sort by title in ascending order.
 ```sh
 db.books.find().sort({ title: 1}).limit(3)
 ```
+
+# Nested Documents
+
+The value of field can be a nested document, or an array of nested documents
+
+```json
+{
+  "title": "The Way of Kings",
+  "genres": ["fantasy", "sci-fi"],
+  "rating": 9,
+  "author": "Brandon Sanderson",
+  "_id": ObjectId("63edb96ff3d635820c583d9c"),
+  "stock": {
+    "count": 21,
+    "price": 7.99,
+  }  
+}
+```
+
+```json
+{
+  "title": "The Way of Kings",
+  "genres": ["fantasy", "sci-fi"],
+  "rating": 9,
+  "author": "Brandon Sanderson",
+  "_id": ObjectId("63edb96ff3d635820c583d9c"),
+  "reviews": [
+    {"name":"Great Read!","body":"Lorem ipsum..."},
+    {"name":"So so I guess","body":"Lorem ipsum..."},
+    {"name":"My fav ever book","body":"Lorem ipsum..."}
+  ]
+}
+```
+
+Having nested documents can improve read performance in some cases.
+
+If the number of reviews becomes huge, then it might be worth just storing the latest reviews on each book document.
+
+Then any further reviews can be fetched from a separate reviews collection when we need them.
+
+## insertOne
+
+```sh
+db.books.insertOne({title: "The Way of Kings", author: "Brandon Sanderson", rating: 9, pages: 400, genres: ["fantasy"], reviews: [{name: "Yoshi", body: "Great book!!"},{name: "Mario", body: "so so"}]})
+```
+
+## insertMany
+
+```sh
+db.books.insertMany([ { title: 'The Light Fantastic', author: 'Terry Pratchett', pages: 250, rating: 6, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was pretty good' }, { name: 'Bowser', body: 'Loved It!!!' }, ], }, { title: 'The Name of the Wind', author: 'Patrick Rothfuss', pages: 500, rating: 10, genres: ['fantasy'], reviews: [{ name: 'Peach', body: 'One of my favs' }], }, { title: 'The Color of Magic', author: 'Terry Pratchett', pages: 350, rating: 8, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was OK' }, { name: 'Bowser', body: 'Really good book' }, ], }, { title: '1984', author: 'George Orwell', pages: 300, rating: 6, genres: ['sci-fi', 'dystopian'], reviews: [ { name: 'Peach', body: 'Not my cup of tea' }, { name: 'Mario', body: 'Meh' }, ], }, ])
+```
