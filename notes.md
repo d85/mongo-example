@@ -220,5 +220,43 @@ db.books.insertOne({title: "The Way of Kings", author: "Brandon Sanderson", rati
 ## insertMany
 
 ```sh
-db.books.insertMany([ { title: 'The Light Fantastic', author: 'Terry Pratchett', pages: 250, rating: 6, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was pretty good' }, { name: 'Bowser', body: 'Loved It!!!' }, ], }, { title: 'The Name of the Wind', author: 'Patrick Rothfuss', pages: 500, rating: 10, genres: ['fantasy'], reviews: [{ name: 'Peach', body: 'One of my favs' }], }, { title: 'The Color of Magic', author: 'Terry Pratchett', pages: 350, rating: 8, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was OK' }, { name: 'Bowser', body: 'Really good book' }, ], }, { title: '1984', author: 'George Orwell', pages: 300, rating: 6, genres: ['sci-fi', 'dystopian'], reviews: [ { name: 'Peach', body: 'Not my cup of tea' }, { name: 'Mario', body: 'Meh' }, ], }, ])
+db.books.insertMany([ { title: 'The Light Fantastic', author: 'Terry Pratchett', pages: 250, rating: 6, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was pretty good' }, { name: 'Bowser', body: 'Loved It!!!' }, ], }, { title: 'The Name of the Wind', author: 'Patrick Rothfuss', pages: 500, rating: 10, genres: ['fantasy'], reviews: [{ name: 'Peach', body: 'One of my favs' }], }, { title: 'The Color of Magic', author: 'Terry Pratchett', pages: 350, rating: 8, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was OK' }, { name: 'Bowser', body: 'Really good book' }, ], }, { title: '1984', author: 'George Orwell', pages: 300, rating: 7, genres: ['sci-fi', 'dystopian'], reviews: [ { name: 'Peach', body: 'Not my cup of tea' }, { name: 'Mario', body: 'Meh' }, ], }, ])
+```
+
+# Operators & Complex Queries
+
+Rating greater than 7 and greater than or equal to
+
+```sh
+db.books.find({ rating: {$gt: 7} })
+
+db.books.find({ rating: {$gte: 7} })
+```
+
+Less than 7 and less than or equal to
+
+```sh
+db.books.find({ rating: {$lt: 7} })
+
+db.books.find({ rating: {$lte: 7} })
+```
+
+## Combining filters
+
+```sh
+db.books.find({ rating: {$gt: 7}, author: "Patrick Rothfuss"})
+```
+
+logical operators
+
+```sh
+db.books.find({$or: [{rating: 7}, {rating: 9}]})
+
+db.books.find({$or: [{rating: 7}, {author: "Terry Pratchett"}]})
+```
+
+pages less than 300 or pages greater than 400
+
+```sh
+db.books.find({$or: [{pages: {$lt: 300}}, {pages: {$gt: 400}}]})
 ```
