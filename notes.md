@@ -302,3 +302,13 @@ Get all books where there is a review by Luigi
 ```sh
 db.books.find({"reviews.name": "Luigi"})
 ```
+
+# Deleting data
+
+```sh
+db.books.deleteOne({ _id: ObjectId("63effdeb0d96f13c66a88f66") })
+```
+
+```sh
+db.books.deleteMany({author: 'Terry Pratchett'})
+```
