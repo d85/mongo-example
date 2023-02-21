@@ -356,3 +356,26 @@ Add another 2 genres (named, '1' and '2')
 ```sh
 db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$push: {genres: {$each: ["1","2"]}}})
 ```
+
+## Basic starter
+
+```js
+const express = require('express')
+
+const app = express()
+
+app.listen(3000, () => {
+  console.log('app listening on port 3000')
+})
+
+app.get('/books', (req, res) => {
+  res.json({ msg: "Welcome to the api" })
+})
+
+```
+
+## MongoDB Drivers
+
+```sh
+npm i mongodb
+```
