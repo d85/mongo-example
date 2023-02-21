@@ -380,6 +380,8 @@ app.get('/books', (req, res) => {
 npm i mongodb
 ```
 
+# Connecting to MongoDB
+
 db.js
 
 ```js
@@ -391,7 +393,7 @@ module.exports = {
   connectToDb: (cb) => {
     MongoClient.connect('mongodb://localhost:27017/bookstore')
       .then((client) => {
-        dcConnection = client.db()
+        dbConnection = client.db()
         return cb()
       })
       .catch(err => {
@@ -424,5 +426,45 @@ connectToDb((err) => {
 
 app.get('/books', (req, res) => {
   res.json({ msg: "Welcome to the api" })
+})
+```
+
+# Cursors and Fetching Data
+
+The `find` method returns a `cursor`
+
+```js
+db.collection('books').find() // cursor
+```
+
+we can use `toArray` and `forEach` with the above
+
+`toArray` fetches all of the `Document`s
+
+When we use either of these two methods, MongoDB `gets the Documents in batches`
+
+The collection could contain many `Document`s.
+
+Default batch size 101 `Document`s
+
+The `sort` method also `returns a cursor`
+
+app.js
+
+```js
+...
+app.get('/books', (req, res) => {
+  let books = []
+
+  db.collection('books')
+    .find()
+    .sort({ author: 1 })
+    .forEach(book => books.push(book))
+    .then(() => {
+      res.status(200).json(books)
+    })
+    .catch(() => {
+      res.status(500).json({error: 'Could not fetch the documents'})
+    })
 })
 ```
