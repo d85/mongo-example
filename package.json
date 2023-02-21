@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/d85/mongo-example#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongodb": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
