@@ -312,3 +312,47 @@ db.books.deleteOne({ _id: ObjectId("63effdeb0d96f13c66a88f66") })
 ```sh
 db.books.deleteMany({author: 'Terry Pratchett'})
 ```
+
+# Updating data
+
+```sh
+db.books.updateOne( {_id: ObjectId("63effdeb0d96f13c66a88f65")}, {$set: {rating: 8, pages: 360}} )
+```
+
+```sh
+db.books.updateMany({ author: "Terry Pratchett"}, {$set: {author: "Terry Pratchet"}})
+```
+
+## Incrementing
+
+```sh
+db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$inc: {pages: 2}})
+```
+
+## Negative incrementing
+
+```sh
+db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$inc: {pages: -2}})
+```
+
+## Push / Pull (modifying arrays)
+
+Remove item from array
+
+```sh
+db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$pull: {genres: "fantasy"}})
+```
+
+Add item to array
+
+```sh
+db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$push: {genres: "fantasy"}})
+```
+
+## $each
+
+Add another 2 genres (named, '1' and '2')
+
+```sh
+db.books.updateOne({_id: ObjectId("63effdeb0d96f13c66a88f66")}, {$push: {genres: {$each: ["1","2"]}}})
+```
