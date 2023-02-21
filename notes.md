@@ -220,7 +220,7 @@ db.books.insertOne({title: "The Way of Kings", author: "Brandon Sanderson", rati
 ## insertMany
 
 ```sh
-db.books.insertMany([ { title: 'The Light Fantastic', author: 'Terry Pratchett', pages: 250, rating: 7, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was pretty good' }, { name: 'Bowser', body: 'Loved It!!!' }, ], }, { title: 'The Name of the Wind', author: 'Patrick Rothfuss', pages: 500, rating: 10, genres: ['fantasy'], reviews: [{ name: 'Peach', body: 'One of my favs' }], }, { title: 'The Color of Magic', author: 'Terry Pratchett', pages: 350, rating: 8, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was OK' }, { name: 'Bowser', body: 'Really good book' }, ], }, { title: '1984', author: 'George Orwell', pages: 300, rating: 7, genres: ['sci-fi', 'dystopian'], reviews: [ { name: 'Peach', body: 'Not my cup of tea' }, { name: 'Mario', body: 'Meh' }, ], }, ])
+db.books.insertMany([ { title: 'The Light Fantastic', author: 'Terry Pratchett', pages: 250, rating: 7, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was pretty good' }, { name: 'Bowser', body: 'Loved It!!!' }, ], }, { title: 'The Name of the Wind', author: 'Patrick Rothfuss', pages: 500, rating: 10, genres: ['fantasy'], reviews: [{ name: 'Peach', body: 'One of my favs' }], }, { title: 'The Color of Magic', author: 'Terry Pratchett', pages: 350, rating: 8, genres: ['fantasy', 'magic'], reviews: [ { name: 'Luigi', body: 'It was OK' }, { name: 'Bowser', body: 'Really good book' }, ], }, { title: '1984', author: 'George Orwell', pages: 300, rating: 7, genres: ['sci-fi', 'dystopian', 'fantasy'], reviews: [ { name: 'Peach', body: 'Not my cup of tea' }, { name: 'Mario', body: 'Meh' }, ], }, ])
 ```
 
 # Operators & Complex Queries
@@ -269,4 +269,36 @@ db.books.find({rating: {$in: [7,8,9]}})
 
 ```sh
 db.books.find({rating: {$nin: [7,8,9]}})
+```
+
+# Querying Arrays
+
+If, inside the genres array - the search term exists, then the corresponding document will be returned.
+
+```sh
+db.books.find({genres: "fantasy"})
+```
+
+Alternatively, if you do want to `exact match` on the array
+
+```sh
+db.books.find({genres: ["fantasy"]})
+```
+
+Exact match both
+
+```sh
+db.books.find({genres: ["fantasy", "magic"]})
+```
+
+Get documents that have all of the specified genres
+
+```sh
+db.books.find({genres: {$all: ["fantasy", "sci-fi"]}})
+```
+
+Get all books where there is a review by Luigi
+
+```sh
+db.books.find({"reviews.name": "Luigi"})
 ```
