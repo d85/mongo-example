@@ -445,9 +445,13 @@ When we use either of these two methods, MongoDB `gets the Documents in batches`
 
 The collection could contain many `Document`s.
 
-Default batch size 101 `Document`s
+`Default batch size is 101 Document`s
 
 The `sort` method also `returns a cursor`
+
+# Fetch data
+
+## All docs
 
 app.js
 
@@ -467,4 +471,10 @@ app.get('/books', (req, res) => {
       res.status(500).json({error: 'Could not fetch the documents'})
     })
 })
+```
+
+## Single doc
+
+```js
+
 ```
