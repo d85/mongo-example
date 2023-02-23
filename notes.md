@@ -547,3 +547,29 @@ app.patch('/books/:id', (req, res) => {
   }
 })
 ```
+
+## Pagination
+
+Use `skip` and `limit`
+
+```js
+app.get('/books', (req, res) => {
+  const page = req.query.p || 0
+  const booksPerPage = 3
+  
+  let books = []
+
+  db.collection('books')
+    .find() // cursor
+    .sort({ author: 1 })
+    .skip(page * booksPerPage)
+    .limit(booksPerPage)
+    .forEach(book => books.push(book))
+    .then(() => {
+      res.status(200).json(books)
+    })
+    .catch(() => {
+      res.status(500).json({error: 'Could not fetch the documents'})
+    })
+})
+```
