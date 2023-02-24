@@ -573,3 +573,71 @@ app.get('/books', (req, res) => {
     })
 })
 ```
+
+# Indexes
+
+```sh
+db.books.find({ rating: 8 }).explain('executionStats')
+```
+
+partial output
+```sh
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 2,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 5,
+    ...
+  }
+```
+
+## Create an Index
+
+```sh
+db.books.createIndex({rating: 8})
+```
+
+output
+```sh
+rating_8
+```
+
+Then if we run `explain` again
+
+```sh
+db.books.find({ rating: 8 }).explain('executionStats')
+```
+
+```sh
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 2,
+    executionTimeMillis: 0,
+    totalKeysExamined: 2,
+    totalDocsExamined: 2,
+    executionStages: {
+```
+
+We see that `totalDocsExamined` has reduced
+
+## getIndexes()
+
+```sh
+db.books.getIndexes()
+```
+
+output
+
+```json
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { rating: 8 }, name: 'rating_8' }
+]
+```
+
+## Drop the Index
+
+```sh
+db.books.dropIndex({rating: 8})
+```
